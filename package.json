@@ -1,0 +1,19 @@
+{
+  "name": "avalab-download-prompt",
+  "packageManager": "yarn@4.2.2",
+  "description": "Avalab.aiプロンプトダウンロード拡張",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc && vite build --emptyOutDir",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "npx prettier . --write",
+    "zip": "rm ../avalab-download-prompt.zip; cd dist; zip -r ../../avalab-download-prompt.zip *"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.268",
+    "prettier": "^3.3.2",
+    "typescript": "^5.5.2",
+    "vite": "^5.3.1"
+  }
+}
