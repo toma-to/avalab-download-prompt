@@ -10,7 +10,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://avalab.ai/generate"],
+      "matches": ["https://avalab.ai/*"],
       "js": ["index.js"],
       "css": ["global.css"]
     }
