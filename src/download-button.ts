@@ -1,4 +1,4 @@
-import { buildFileName } from './filename';
+import { fileName } from './filename';
 
 export class DownloadButton {
   constructor(
@@ -7,7 +7,10 @@ export class DownloadButton {
   ) {
     const observer = new MutationObserver((records) => {
       for (const record of records) {
-        if (record.target instanceof HTMLAnchorElement) {
+        if (
+          record.target instanceof HTMLDivElement &&
+          record.target.classList.contains('image-container')
+        ) {
           this.atattch(record.target);
           observer.disconnect();
           return;
@@ -21,31 +24,42 @@ export class DownloadButton {
     });
   }
 
-  private atattch(target: HTMLAnchorElement): void {
+  private atattch(target: HTMLDivElement): void {
     const button = document.createElement('div');
     button.innerHTML = '<span class="material-icons md-48">download_2</span>';
     button.classList.add('prompt-dl-button');
     button.addEventListener('click', () => {
       this.download(target);
     });
-    this.root.classList.add('prompt-dl-parent');
-    this.root.append(button);
+    target.append(button);
   }
 
-  private download(target: HTMLAnchorElement): void {
-    const orgFileName = target.download;
-    const imgFileName = buildFileName(orgFileName);
-    target.download = imgFileName;
-    target.click();
-    target.download = orgFileName;
+  private download(target: HTMLDivElement): void {
+    const imgFileName = fileName.getFileName();
+
+    const image = [...target.children]
+      .flatMap((val) => [...val.children])
+      .find(
+        (val) =>
+          val.classList.contains('image__inner') &&
+          val instanceof HTMLImageElement,
+      ) as HTMLImageElement;
+    if (!image) {
+      return;
+    }
+    const imgLink = document.createElement('a');
+    imgLink.href = image.src;
+    imgLink.download = imgFileName;
+    imgLink.click();
+
     const filename = imgFileName.replace(/\.png$/, '.txt');
     const blob = new Blob([this.prompt.textContent || ''], {
       type: 'text/plain',
     });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    a.click();
+    const prompt = document.createElement('a');
+    prompt.href = url;
+    prompt.download = filename;
+    prompt.click();
   }
 }
