@@ -1,3 +1,5 @@
+import { buildFileName } from './filename';
+
 export class DownloadButton {
   constructor(
     private readonly root: HTMLElement,
@@ -31,8 +33,12 @@ export class DownloadButton {
   }
 
   private download(target: HTMLAnchorElement): void {
+    const orgFileName = target.download;
+    const imgFileName = buildFileName(orgFileName);
+    target.download = imgFileName;
     target.click();
-    const filename = target.download.replace(/\.png$/, '.txt');
+    target.download = orgFileName;
+    const filename = imgFileName.replace(/\.png$/, '.txt');
     const blob = new Blob([this.prompt.textContent || ''], {
       type: 'text/plain',
     });
