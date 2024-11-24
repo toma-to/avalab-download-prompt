@@ -29,6 +29,7 @@ export class DownloadButton {
     button.innerHTML = '<span class="material-icons md-48">download_2</span>';
     button.classList.add('prompt-dl-button');
     button.addEventListener('click', () => {
+      console.log('dl', this);
       this.download(target);
     });
     target.append(button);
@@ -39,16 +40,13 @@ export class DownloadButton {
 
     const image = [...target.children]
       .flatMap((val) => [...val.children])
-      .find(
-        (val) =>
-          val.classList.contains('image__inner') &&
-          val instanceof HTMLImageElement,
-      ) as HTMLImageElement;
+      .find((val) => val instanceof HTMLAnchorElement) as HTMLAnchorElement;
+    console.log(image, target);
     if (!image) {
       return;
     }
     const imgLink = document.createElement('a');
-    imgLink.href = image.src;
+    imgLink.href = image.href;
     imgLink.download = imgFileName;
     imgLink.click();
 
