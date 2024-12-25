@@ -40,13 +40,17 @@ export class DownloadButton {
 
     const image = [...target.children]
       .flatMap((val) => [...val.children])
-      .find((val) => val instanceof HTMLAnchorElement) as HTMLAnchorElement;
+      .find(
+        (val) =>
+          val instanceof HTMLImageElement &&
+          val.classList.contains('image__inner'),
+      ) as HTMLImageElement;
     console.log(image, target);
     if (!image) {
       return;
     }
     const imgLink = document.createElement('a');
-    imgLink.href = image.href;
+    imgLink.href = image.src;
     imgLink.download = imgFileName;
     imgLink.click();
 
