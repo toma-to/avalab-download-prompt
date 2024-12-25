@@ -40,7 +40,11 @@ export class DownloadButton {
 
     const image = [...target.children]
       .flatMap((val) => [...val.children])
-      .find((val) => val instanceof HTMLImageElement && val.classList.contains('image__inner')) as HTMLImageElement;
+      .find(
+        (val) =>
+          val instanceof HTMLImageElement &&
+          val.classList.contains('image__inner'),
+      ) as HTMLImageElement;
     console.log(image, target);
     if (!image) {
       return;
