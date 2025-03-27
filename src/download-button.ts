@@ -9,10 +9,12 @@ export class DownloadButton {
       for (const record of records) {
         if (
           record.target instanceof HTMLDivElement &&
-          record.target.classList.contains('image-container')
+          record.target.classList.contains('image-container') &&
+          [...record.target.children].find((val) =>
+            val.classList.contains('prompt-dl-button'),
+          ) == null
         ) {
-          this.atattch(record.target);
-          observer.disconnect();
+          this.attach(record.target);
           return;
         }
       }
@@ -24,7 +26,7 @@ export class DownloadButton {
     });
   }
 
-  private atattch(target: HTMLDivElement): void {
+  private attach(target: HTMLDivElement): void {
     const button = document.createElement('div');
     button.innerHTML = '<span class="material-icons md-48">download_2</span>';
     button.classList.add('prompt-dl-button');
