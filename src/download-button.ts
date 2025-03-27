@@ -9,10 +9,12 @@ export class DownloadButton {
       for (const record of records) {
         if (
           record.target instanceof HTMLDivElement &&
-          record.target.classList.contains('image-container')
+          record.target.classList.contains('image-container') &&
+          [...record.target.children].find((val) =>
+            val.classList.contains('prompt-dl-button'),
+          ) == null
         ) {
           this.attach(record.target);
-          observer.disconnect();
           return;
         }
       }
